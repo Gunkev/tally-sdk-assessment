@@ -1,0 +1,16 @@
+{
+  point: "warning"
+  note: "Path placeholder {organizationId} on entity=organization op=list path=/organizations/{organizationId}/invites has no declared parameter, so it is taken as a required string."
+  entity: "organization"
+  path: "/organizations/{organizationId}/invites"
+  op: "list"
+}
+
+
+{
+  point: "warning"
+  note: "Path placeholder {organizationId} on entity=user op=list path=/organizations/{organizationId}/users has no declared parameter, so it is taken as a required string."
+  entity: "user"
+  path: "/organizations/{organizationId}/users"
+  op: "list"
+}

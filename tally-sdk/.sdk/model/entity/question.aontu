@@ -1,0 +1,156 @@
+# Entity: question
+
+main: kit: entity: question: {
+
+  alias: field: {}
+
+  fields: {
+    createdAt: {
+      fo: "date-time"
+      h: "Created At"
+      n: "createdAt"
+      r: false
+      t: "`$STRING`"
+    }
+    fields: {
+      h: "Fields"
+      n: "fields"
+      r: false
+      t: "`$ARRAY`"
+    }
+    formId: {
+      h: "Form Id"
+      n: "formId"
+      r: false
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    isDeleted: {
+      h: "Is Deleted"
+      n: "isDeleted"
+      r: false
+      t: "`$BOOLEAN`"
+    }
+    isTitleModifiedByUser: {
+      h: "Is Title Modified By User"
+      n: "isTitleModifiedByUser"
+      r: false
+      t: "`$BOOLEAN`"
+    }
+    numberOfResponses: {
+      h: "Number Of Responses"
+      n: "numberOfResponses"
+      r: false
+      t: "`$INTEGER`"
+    }
+    title: {
+      h: "Title"
+      n: "title"
+      r: false
+      sh: "The new title for the question"
+      t: "`$STRING`"
+    }
+    type: {
+      h: "Type"
+      n: "type"
+      r: false
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      fo: "date-time"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "question"
+  op: {
+    update: {
+      name: "update"
+      points: [
+        {
+          bf: [
+            "title"
+          ]
+          co: {
+            id: "PATCH /forms/{formId}/questions/{questionId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "form_id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "id"
+                or: "questionId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "PATCH"
+          o: "/forms/{formId}/questions/{questionId}"
+          q: {
+            exist: [
+              "form_id"
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              formId: "form_id"
+              questionId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "form_id"
+            }
+            {
+              lit: "questions"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.form")]
+  ]
+
+}

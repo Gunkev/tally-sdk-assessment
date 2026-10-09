@@ -1,0 +1,423 @@
+# Entity: webhook
+
+main: kit: entity: webhook: {
+
+  alias: field: {}
+
+  fields: {
+    createdAt: {
+      fo: "date-time"
+      h: "Created At"
+      n: "createdAt"
+      r: false
+      sh: "When the webhook was created"
+      t: "`$STRING`"
+    }
+    eventTypes: {
+      h: "Event Types"
+      n: "eventTypes"
+      op: {
+        list: {
+          req: false
+          type: "`$ARRAY`"
+        }
+      }
+      r: true
+      sh: "Types of events to receive"
+      t: "`$ARRAY`"
+    }
+    externalSubscriber: {
+      h: "External Subscriber"
+      n: "externalSubscriber"
+      r: false
+      sh: "Optional identifier for the external subscriber"
+      t: "`$STRING`"
+    }
+    formId: {
+      h: "Form Id"
+      n: "formId"
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
+      sh: "The ID of the form to create the webhook for"
+      t: "`$STRING`"
+    }
+    httpHeaders: {
+      h: "Http Headers"
+      n: "httpHeaders"
+      r: false
+      sh: "Optional custom HTTP headers to include in webhook requests"
+      t: "`$ARRAY`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "Webhook ID"
+      t: "`$STRING`"
+    }
+    isEnabled: {
+      h: "Is Enabled"
+      n: "isEnabled"
+      op: {
+        list: {
+          req: false
+          type: "`$BOOLEAN`"
+        }
+      }
+      r: true
+      sh: "Whether the webhook is enabled"
+      t: "`$BOOLEAN`"
+    }
+    lastSyncedAt: {
+      fo: "date-time"
+      h: "Last Synced At"
+      n: "lastSyncedAt"
+      r: false
+      sh: "When the webhook was last synced"
+      t: "`$STRING`"
+    }
+    signingSecret: {
+      h: "Signing Secret"
+      n: "signingSecret"
+      r: false
+      sh: "Optional secret used to sign webhook payloads"
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      fo: "date-time"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      sh: "When the webhook was last updated"
+      t: "`$STRING`"
+    }
+    url: {
+      h: "Url"
+      n: "url"
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
+      sh: "The URL to send webhook events to"
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "webhook"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /webhooks/{webhookId}/events/{eventId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "event_id"
+                or: "eventId"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "id"
+                or: "webhookId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/webhooks/{webhookId}/events/{eventId}"
+          q: {
+            exist: [
+              "event_id"
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              eventId: "event_id"
+              webhookId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "webhooks"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "events"
+            }
+            {
+              var: "event_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          bf: [
+            "eventTypes"
+            "externalSubscriber"
+            "formId"
+            "httpHeaders"
+            "signingSecret"
+            "url"
+          ]
+          co: {
+            id: "POST /webhooks"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/webhooks"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "webhooks"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /webhooks/{webhookId}/events"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "webhookId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/webhooks/{webhookId}/events"
+          q: {
+            "$action": "event"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              webhookId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "webhooks"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "events"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.events`"
+          }
+        }
+        {
+          co: {
+            id: "GET /webhooks"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "limit"
+                or: "limit"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/webhooks"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "webhooks"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.webhooks`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /webhooks/{webhookId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "webhookId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/webhooks/{webhookId}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              webhookId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "webhooks"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          bf: [
+            "eventTypes"
+            "formId"
+            "httpHeaders"
+            "isEnabled"
+            "signingSecret"
+            "url"
+          ]
+          co: {
+            id: "PATCH /webhooks/{webhookId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "webhookId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "PATCH"
+          o: "/webhooks/{webhookId}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              webhookId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "webhooks"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

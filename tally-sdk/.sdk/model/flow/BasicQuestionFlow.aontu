@@ -1,0 +1,33 @@
+# BasicQuestionFlow
+
+main: kit: flow: BasicQuestionFlow:
+{
+  entity: "question",
+  kind: "basic",
+  name: "BasicQuestionFlow",
+  step: [
+    {
+      d: {
+        form_id: "form01"
+      }
+
+      i: {
+        ref: "question_ref01",
+        srcdatavar: "question_ref01_data",
+        suffix: "_up0",
+        textfield: "createdAt"
+      }
+
+      o: "update",
+      s: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-question_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicQuestionFlow"
+}

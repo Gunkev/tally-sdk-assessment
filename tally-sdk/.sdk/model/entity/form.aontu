@@ -1,0 +1,1031 @@
+# Entity: form
+
+main: kit: entity: form: {
+
+  alias: field: {}
+
+  fields: {
+    blocks: {
+      h: "Blocks"
+      n: "blocks"
+      op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      r: false
+      sh: "Updated blocks for the form"
+      t: "`$ARRAY`"
+      union: {
+        branches: 4
+        count: 28
+        depth: 14
+      }
+    }
+    createdAt: {
+      fo: "date-time"
+      h: "Created At"
+      n: "createdAt"
+      r: true
+      t: "`$STRING`"
+    }
+    folderId: {
+      h: "Folder Id"
+      n: "folderId"
+      r: false
+      sh: "ID of the folder to place the form in."
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      t: "`$STRING`"
+    }
+    isClosed: {
+      h: "Is Closed"
+      n: "isClosed"
+      r: true
+      t: "`$BOOLEAN`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      op: {
+        update: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
+      sh: "New name for the form"
+      t: "`$STRING`"
+    }
+    numberOfSubmissions: {
+      h: "Number Of Submissions"
+      n: "numberOfSubmissions"
+      r: true
+      t: "`$NUMBER`"
+    }
+    payments: {
+      h: "Payments"
+      n: "payments"
+      r: false
+      t: "`$ARRAY`"
+    }
+    questions: {
+      h: "Questions"
+      n: "questions"
+      r: false
+      sh: "List of form questions with their fields"
+      t: "`$ARRAY`"
+    }
+    settings: {
+      h: "Settings"
+      n: "settings"
+      r: false
+      sh: "Updated settings for the form"
+      t: "`$OBJECT`"
+      union: {
+        branches: 2
+        count: 2
+        depth: 11
+      }
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      op: {
+        update: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
+      sh: "Deleting a form is done through DELETE /forms/{formId}, which moves it to the trash so it can be restored."
+      t: "`$STRING`"
+    }
+    submission: {
+      h: "Submission"
+      n: "submission"
+      r: false
+      sh: "The form submission with responses"
+      t: "`$OBJECT`"
+      union: {
+        branches: 5
+        count: 1
+        depth: 5
+      }
+    }
+    templateId: {
+      h: "Template Id"
+      n: "templateId"
+      r: false
+      sh: "ID of the template to base the form on"
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      fo: "date-time"
+      h: "Updated At"
+      n: "updatedAt"
+      r: true
+      t: "`$STRING`"
+    }
+    workspaceId: {
+      h: "Workspace Id"
+      n: "workspaceId"
+      op: {
+        create: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
+      sh: "ID of the workspace to create the form in."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "form"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "blocks"
+            "folderId"
+            "settings"
+            "status"
+            "templateId"
+            "workspaceId"
+          ]
+          co: {
+            id: "POST /forms"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/forms"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /forms/{formId}/analytics/drop-off"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "period"
+                or: "period"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms/{formId}/analytics/drop-off"
+          q: {
+            "$action": "analytics_drop_off"
+            exist: [
+              "id"
+              "period"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "analytics"
+            }
+            {
+              lit: "drop-off"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /forms/{formId}/blocks"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms/{formId}/blocks"
+          q: {
+            "$action": "block"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "blocks"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.blocks`"
+          }
+        }
+        {
+          co: {
+            id: "GET /forms/{formId}/questions"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms/{formId}/questions"
+          q: {
+            "$action": "question"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "questions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.questions`"
+          }
+        }
+        {
+          co: {
+            id: "GET /forms/{formId}/submissions"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "after_id"
+                or: "afterId"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "end_date"
+                or: "endDate"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "filter"
+                or: "filter"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "limit"
+                or: "limit"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "start_date"
+                or: "startDate"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms/{formId}/submissions"
+          q: {
+            "$action": "submission"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "submissions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /forms"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "limit"
+                or: "limit"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "workspace_id"
+                or: "workspaceIds"
+                r: false
+                t: "`$ARRAY`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.items`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /forms/{formId}/analytics/dimensions"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "period"
+                or: "period"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms/{formId}/analytics/dimensions"
+          q: {
+            "$action": "analytics_dimension"
+            exist: [
+              "id"
+              "period"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "analytics"
+            }
+            {
+              lit: "dimensions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /forms/{formId}/analytics/metrics"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "period"
+                or: "period"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms/{formId}/analytics/metrics"
+          q: {
+            "$action": "analytics_metric"
+            exist: [
+              "id"
+              "period"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "analytics"
+            }
+            {
+              lit: "metrics"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /forms/{formId}/analytics/submissions"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "period"
+                or: "period"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms/{formId}/analytics/submissions"
+          q: {
+            "$action": "analytics_submission"
+            exist: [
+              "id"
+              "period"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "analytics"
+            }
+            {
+              lit: "submissions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /forms/{formId}/analytics/visits"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "period"
+                or: "period"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms/{formId}/analytics/visits"
+          q: {
+            "$action": "analytics_visit"
+            exist: [
+              "id"
+              "period"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "analytics"
+            }
+            {
+              lit: "visits"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /forms/{formId}/submissions/{submissionId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "submission_id"
+                or: "submissionId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms/{formId}/submissions/{submissionId}"
+          q: {
+            exist: [
+              "id"
+              "submission_id"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+              submissionId: "submission_id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "submissions"
+            }
+            {
+              var: "submission_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /forms/{formId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/forms/{formId}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /forms/{formId}/submissions/{submissionId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "submission_id"
+                or: "submissionId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/forms/{formId}/submissions/{submissionId}"
+          q: {
+            exist: [
+              "id"
+              "submission_id"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+              submissionId: "submission_id"
+            }
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "submissions"
+            }
+            {
+              var: "submission_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "DELETE /forms/{formId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/forms/{formId}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          bf: [
+            "blocks"
+            "name"
+            "settings"
+            "status"
+          ]
+          co: {
+            id: "PATCH /forms/{formId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "PATCH"
+          o: "/forms/{formId}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              formId: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

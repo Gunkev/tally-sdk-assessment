@@ -1,0 +1,28 @@
+# BasicBlockFlow
+
+main: kit: flow: BasicBlockFlow:
+{
+  entity: "block",
+  kind: "basic",
+  name: "BasicBlockFlow",
+  step: [
+    {
+      i: {
+        ref: "block_ref01",
+        srcdatavar: "block_ref01_data",
+        suffix: "_up0"
+      }
+
+      o: "update",
+      s: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-block_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicBlockFlow"
+}

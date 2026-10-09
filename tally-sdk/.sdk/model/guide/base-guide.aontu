@@ -1,0 +1,171 @@
+# Generated from the API definition and overwritten on every build: do not
+# edit this file. Put customizations in the guide entry file, which includes
+# this one and overrides its defaults:
+#   guide.aontu
+
+guide: {
+  metrics: count: entity: 9
+  metrics: count: path: 25
+  metrics: count: method: 38
+
+  entity: block: {
+    path: "/forms/{formId}/blocks": {
+      rename: param: "formId": *"form_id"
+      op: patch: method: *PATCH
+    }
+  }
+
+  entity: folder: {
+    path: "/workspaces/{workspaceId}/folders": {
+      rename: param: "workspaceId": *"workspace_id"
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/workspaces/{workspaceId}/folders/{id}": {
+      rename: param: "workspaceId": *"workspace_id"
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: form: {
+    path: "/forms": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.items`")|top
+    }
+    path: "/forms/{formId}": {
+      rename: param: "formId": *"id"
+      op: load: method: *GET
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+    }
+    path: "/forms/{formId}/analytics/dimensions": {
+      action: "analytics_dimension": {}
+      rename: param: "formId": *"id"
+      op: load: method: *GET
+    }
+    path: "/forms/{formId}/analytics/drop-off": {
+      action: "analytics_drop_off": {}
+      rename: param: "formId": *"id"
+      op: list: method: *GET
+    }
+    path: "/forms/{formId}/analytics/metrics": {
+      action: "analytics_metric": {}
+      rename: param: "formId": *"id"
+      op: load: method: *GET
+    }
+    path: "/forms/{formId}/analytics/submissions": {
+      action: "analytics_submission": {}
+      rename: param: "formId": *"id"
+      op: load: method: *GET
+    }
+    path: "/forms/{formId}/analytics/visits": {
+      action: "analytics_visit": {}
+      rename: param: "formId": *"id"
+      op: load: method: *GET
+    }
+    path: "/forms/{formId}/blocks": {
+      action: "block": {}
+      rename: param: "formId": *"id"
+      op: list: method: *GET
+      op: list: transform: res: *("`body.blocks`")|top
+    }
+    path: "/forms/{formId}/questions": {
+      action: "question": {}
+      rename: param: "formId": *"id"
+      op: list: method: *GET
+      op: list: transform: res: *("`body.questions`")|top
+    }
+    path: "/forms/{formId}/submissions": {
+      action: "submission": {}
+      rename: param: "formId": *"id"
+      op: list: method: *GET
+    }
+    path: "/forms/{formId}/submissions/{submissionId}": {
+      rename: param: "formId": *"id"
+      rename: param: "submissionId": *"submission_id"
+      op: load: method: *GET
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: men: {
+    path: "/users/me": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: organization: {
+    path: "/organizations/{organizationId}/invites": {
+      action: "invite": {}
+      rename: param: "organizationId": *"id"
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/organizations/{organizationId}/invites/{inviteId}": {
+      rename: param: "inviteId": *"invite_id"
+      rename: param: "organizationId": *"id"
+      op: remove: method: *DELETE
+    }
+    path: "/organizations/{organizationId}/users/{userId}": {
+      rename: param: "organizationId": *"id"
+      rename: param: "userId": *"user_id"
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: question: {
+    path: "/forms/{formId}/questions/{questionId}": {
+      rename: param: "formId": *"form_id"
+      rename: param: "questionId": *"id"
+      op: patch: method: *PATCH
+    }
+  }
+
+  entity: user: {
+    path: "/organizations/{organizationId}/users": {
+      rename: param: "organizationId": *"organization_id"
+      op: list: method: *GET
+    }
+  }
+
+  entity: webhook: {
+    path: "/webhooks": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.webhooks`")|top
+    }
+    path: "/webhooks/{webhookId}": {
+      rename: param: "webhookId": *"id"
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+    }
+    path: "/webhooks/{webhookId}/events": {
+      action: "event": {}
+      rename: param: "webhookId": *"id"
+      op: list: method: *GET
+      op: list: transform: res: *("`body.events`")|top
+    }
+    path: "/webhooks/{webhookId}/events/{eventId}": {
+      rename: param: "eventId": *"event_id"
+      rename: param: "webhookId": *"id"
+      op: create: method: *POST
+    }
+  }
+
+  entity: workspace: {
+    path: "/workspaces": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.items`")|top
+    }
+    path: "/workspaces/{workspaceId}": {
+      rename: param: "workspaceId": *"id"
+      op: load: method: *GET
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+    }
+  }
+
+}

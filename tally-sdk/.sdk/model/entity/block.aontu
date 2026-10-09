@@ -1,0 +1,99 @@
+# Entity: block
+
+main: kit: entity: block: {
+
+  alias: field: {}
+
+  fields: {
+    blocks: {
+      h: "Blocks"
+      n: "blocks"
+      r: true
+      t: "`$ARRAY`"
+      union: {
+        branches: 4
+        count: 28
+        depth: 14
+      }
+    }
+    settings: {
+      h: "Settings"
+      n: "settings"
+      r: false
+      t: "`$ANY`"
+      union: {
+        branches: 2
+        count: 2
+        depth: 13
+      }
+    }
+  }
+
+  name: "block"
+  op: {
+    update: {
+      name: "update"
+      points: [
+        {
+          bf: [
+            "blocks"
+            "settings"
+          ]
+          co: {
+            id: "PATCH /forms/{formId}/blocks"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "form_id"
+                or: "formId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "PATCH"
+          o: "/forms/{formId}/blocks"
+          q: {
+            exist: [
+              "form_id"
+            ]
+          }
+          r: {
+            param: {
+              formId: "form_id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "forms"
+            }
+            {
+              var: "form_id"
+            }
+            {
+              lit: "blocks"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.form")]
+  ]
+
+}

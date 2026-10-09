@@ -1,0 +1,30 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      description: "Tally's API"
+      license: {
+        name: "MIT"
+      }
+      security: {
+        in: "header"
+        name: "Authorization"
+        prefix: "Bearer"
+        scheme: "bearerAuth"
+        type: "http"
+      }
+      servers: [
+        {
+          url: "https://api.tally.so"
+        }
+      ]
+      summary: "Tally's API"
+      title: "OpenAPI"
+      version: "1.0.0"
+      website: "https://tally.so"
+    }
+  }
+}
+
